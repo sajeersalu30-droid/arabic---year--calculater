@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arabic Year Calculator</title>
+</head>
+<body>
+
+<h2>Arabic Year Calculator</h2>
+
+<label>Arabic Year:</label><br>
+<input type="number" id="year"><br><br>
+
+<label>Days:</label><br>
+<input type="number" id="days"><br><br>
+
+<button onclick="calculate()">Calculate</button>
+
+<h3 id="result"></h3>
+
+<script>
+function calculate() {
+    let x = 354;
+    let z = Number(document.getElementById("year").value);
+    let f = Number(document.getElementById("days").value);
+    let c = 30;
+    let d = 11;
+    let g = 320;
+
+    let temp = ((x * c + d) * z) / c;
+    let az = Math.floor(temp);
+    if (temp - az >= 0.2) {
+        az++;
+    }
+
+    let t = az + f + g;
+    let o = t * 4;
+    let j = (365 * 4) + 1;
+    let AZ = Math.floor(o / j);
+    let U = AZ + 337;
+    let v = o % j;
+    let k = Math.floor(v / 4);
+
+    document.getElementById("result").innerHTML =
+        "Aslul Arabic: " + t + "<br>" +
+        "Year Result: " + U + "<br>" +
+        "Remaining Days: " + k;
+}
+</script>
+
+</body>
+</html>
