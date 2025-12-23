@@ -3,113 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arabic Year Calculator</title>
+<title>Arabic to Qibthi Calculator</title>
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#1f4037,#99f2c8);
+    font-family:Arial, sans-serif;
 }
 
-.container {
-    background: #ffffff;
-    width: 100%;
-    max-width: 380px;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+.card{
+    background:#fff;
+    padding:25px;
+    width:100%;
+    max-width:430px;
+    border-radius:14px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.3);
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #1e3c72;
+h2{
+    text-align:center;
+    color:#1f4037;
 }
 
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
+label{
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
+input{
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    margin-top:5px;
+    border-radius:8px;
+    border:1px solid #ccc;
 }
 
-button {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    background: #1e3c72;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+button{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:#1f4037;
+    color:#fff;
+    cursor:pointer;
 }
 
-button:hover {
-    background: #16305d;
+button:hover{
+    background:#145a32;
 }
 
-.result {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f4f6fb;
-    border-radius: 8px;
-    font-size: 15px;
-}
-
-.result p {
-    margin: 6px 0;
+.result{
+    margin-top:20px;
+    background:#f4f4f4;
+    padding:15px;
+    border-radius:10px;
+    line-height:1.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h2>Arabic Year Calculator</h2>
+<div class="card">
+    <h2>Arabic → Qibthi Converter</h2>
 
     <label>Arabic Year</label>
-    <input type="number" id="year" placeholder="Enter year">
+    <input type="number" id="year" placeholder="Enter Arabic Year" inputmode="numeric">
 
     <label>Days</label>
-    <input type="number" id="days" placeholder="Enter days">
+    <input type="number" id="days" placeholder="Enter Days" inputmode="numeric">
 
     <button onclick="calculate()">Calculate</button>
 
-    <div class="result" id="result" style="display:none;"></div>
+    <div class="result" id="output"></div>
 </div>
 
 <script>
-function calculate() {
+function calculate(){
+
+    let x = 354;
     let z = Number(document.getElementById("year").value);
     let f = Number(document.getElementById("days").value);
 
-    if (!z || !f) {
-        alert("Please enter both Year and Days");
-        return;
-    }
-
-    let x = 354;
     let c = 30;
     let d = 11;
     let g = 320;
 
     let temp = ((x * c + d) * z) / c;
     let az = Math.floor(temp);
-    if (temp - az >= 0.2) {
+
+    if(temp - az >= 0.2){
         az++;
     }
 
@@ -121,11 +113,17 @@ function calculate() {
     let v = o % j;
     let k = Math.floor(v / 4);
 
-    document.getElementById("result").style.display = "block";
-    document.getElementById("result").innerHTML =
-        "<p><b>Aslul Arabic:</b> " + t + "</p>" +
-        "<p><b>QIBTHI Year Result:</b> " + U + "</p>" +
-        "<p><b>Remaining Days:</b> " + k + "</p>";
+    let n = Math.floor(k / 30);
+    let s = k % 30;
+    let e = Math.floor((U - 1377) / 100);
+
+    document.getElementById("output").innerHTML = `
+        <b>ASLUL ARABIC :</b> ${t}<br>
+        <b>QIBTHI YEAR :</b> ${U}<br>
+        <b>QIBTHI DAYS :</b> ${k}<br>
+        <b>MONTH FROM QIBTHI :</b> ${n}<br>
+        <b>DAYS FROM QIBTHI :</b> ${e + s}
+    `;
 }
 </script>
 
