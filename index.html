@@ -1,27 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Arabic Year Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arabic Year Calculator</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 380px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1e3c72;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background: #1e3c72;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #16305d;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f4f6fb;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.result p {
+    margin: 6px 0;
+}
+</style>
 </head>
+
 <body>
 
-<h2>Arabic Year Calculator</h2>
+<div class="container">
+    <h2>Arabic Year Calculator</h2>
 
-<label>Arabic Year:</label><br>
-<input type="number" id="year"><br><br>
+    <label>Arabic Year</label>
+    <input type="number" id="year" placeholder="Enter year">
 
-<label>Days:</label><br>
-<input type="number" id="days"><br><br>
+    <label>Days</label>
+    <input type="number" id="days" placeholder="Enter days">
 
-<button onclick="calculate()">Calculate</button>
+    <button onclick="calculate()">Calculate</button>
 
-<h3 id="result"></h3>
+    <div class="result" id="result" style="display:none;"></div>
+</div>
 
 <script>
 function calculate() {
-    let x = 354;
     let z = Number(document.getElementById("year").value);
     let f = Number(document.getElementById("days").value);
+
+    if (!z || !f) {
+        alert("Please enter both Year and Days");
+        return;
+    }
+
+    let x = 354;
     let c = 30;
     let d = 11;
     let g = 320;
@@ -40,10 +121,11 @@ function calculate() {
     let v = o % j;
     let k = Math.floor(v / 4);
 
+    document.getElementById("result").style.display = "block";
     document.getElementById("result").innerHTML =
-        "Aslul Arabic: " + t + "<br>" +
-        "Year Result: " + U + "<br>" +
-        "Remaining Days: " + k;
+        "<p><b>Aslul Arabic:</b> " + t + "</p>" +
+        "<p><b>Year Result:</b> " + U + "</p>" +
+        "<p><b>Remaining Days:</b> " + k + "</p>";
 }
 </script>
 
