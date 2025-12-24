@@ -3,127 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arabic to Qibthi Calculator</title>
-
+<title>Arabic & Budhu Dharaja Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <style>
-body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#1f4037,#99f2c8);
-    font-family:Arial, sans-serif;
-}
+    body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.card{
-    background:#fff;
-    padding:25px;
-    width:100%;
-    max-width:430px;
-    border-radius:14px;
-    box-shadow:0 12px 30px rgba(0,0,0,0.3);
-}
+    .container {
+        background: #fff;
+        border-radius: 25px;
+        padding: 25px 30px;
+        max-width: 500px;
+        width: 95%;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease;
+    }
 
-h2{
-    text-align:center;
-    color:#1f4037;
-}
+    .container:hover { transform: translateY(-5px); }
 
-label{
-    display:block;
-    margin-top:15px;
-    font-weight:bold;
-}
+    h2 {
+        text-align: center;
+        color: #2575fc;
+        margin-bottom: 25px;
+    }
 
-input{
-    width:100%;
-    padding:12px;
-    font-size:16px;
-    margin-top:5px;
-    border-radius:8px;
-    border:1px solid #ccc;
-}
+    label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; }
+    input, select, button {
+        width: 100%;
+        padding: 12px 10px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+    }
 
-button{
-    width:100%;
-    margin-top:20px;
-    padding:14px;
-    font-size:18px;
-    border:none;
-    border-radius:10px;
-    background:#1f4037;
-    color:#fff;
-    cursor:pointer;
-}
+    input:focus, select:focus { outline: none; border-color: #2575fc; box-shadow: 0 0 8px rgba(37,117,252,0.4); }
+    input:hover, select:hover { transform: scale(1.02); }
 
-button:hover{
-    background:#145a32;
-}
+    button {
+        background: #2575fc;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
 
-.result{
-    margin-top:20px;
-    background:#f4f4f4;
-    padding:15px;
-    border-radius:10px;
-    line-height:1.6;
-}
+    button:hover { background: #6a11cb; box-shadow: 0 8px 15px rgba(0,0,0,0.2); transform: scale(1.05); }
+
+    .result { margin-top: 15px; }
+
+    .card {
+        border-radius: 15px;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s forwards;
+        font-weight: 500;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .card b { font-weight: 600; }
+
+    @keyframes fadeInUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .burj-icon { font-size: 1.5rem; margin-right: 10px; }
+
+    @media(max-width: 500px) {
+        .container { padding: 20px 15px; }
+        input, select, button { font-size: 0.95rem; padding: 10px; }
+    }
 </style>
 </head>
-
 <body>
 
-<div class="card">
-    <h2>Arabic → Qibthi Converter</h2>
+<div class="container">
+    <h2>Arabic & Budhu Dharaja Calculator</h2>
 
-    <label>Arabic Year</label>
-    <input type="number" id="year" placeholder="Enter Arabic Year" inputmode="numeric">
+    <label>Arabic Year:</label>
+    <input type="number" id="arabicYear" placeholder="Enter Arabic Year">
 
-    <label>Days</label>
-    <input type="number" id="days" placeholder="Enter Days" inputmode="numeric">
+    <label>Additional Days:</label>
+    <input type="number" id="extraDays" placeholder="Enter additional days">
+
+    <label>Burj (Zodiac Sign):</label>
+    <select id="burjName" onchange="updateIcon()">
+        <option value="">Select Burj</option>
+        <option value="Aries">♈ Aries / الحمل</option>
+        <option value="Taurus">♉ Taurus / الثور</option>
+        <option value="Gemini">♊ Gemini / الجوزاء</option>
+        <option value="Cancer">♋ Cancer / السرطان</option>
+        <option value="Leo">♌ Leo / الأسد</option>
+        <option value="Virgo">♍ Virgo / السنبلة</option>
+        <option value="Libra">♎ Libra / الميزان</option>
+        <option value="Scorpio">♏ Scorpio / العقرب</option>
+        <option value="Sagittarius">♐ Sagittarius / القوس</option>
+        <option value="Capricorn">♑ Capricorn / الجدي</option>
+        <option value="Aquarius">♒ Aquarius / الدلو</option>
+        <option value="Pisces">♓ Pisces / الحوت</option>
+    </select>
+    <div id="burjIcon" style="font-size: 1.7rem; margin-bottom:15px;"></div>
+
+    <label>Sun Budhu Dharaja Degree:</label>
+    <input type="number" id="deg" placeholder="Degree">
+
+    <label>Sun Budhu Dharaja Minute:</label>
+    <input type="number" id="min" placeholder="Minute">
 
     <button onclick="calculate()">Calculate</button>
 
-    <div class="result" id="output"></div>
+    <div id="result" class="result"></div>
 </div>
 
 <script>
-function calculate(){
+const burjColors = {
+    Aries:'#FF4D4D', Taurus:'#FFA64D', Gemini:'#FFD24D', Cancer:'#4D79FF',
+    Leo:'#FFB84D', Virgo:'#66CC66', Libra:'#FF66B2', Scorpio:'#9933FF',
+    Sagittarius:'#FF9933', Capricorn:'#4DD2FF', Aquarius:'#66FFFF', Pisces:'#9966FF'
+};
 
-    let x = 354;
-    let z = Number(document.getElementById("year").value);
-    let f = Number(document.getElementById("days").value);
+const burjIcons = {
+    Aries:'♈', Taurus:'♉', Gemini:'♊', Cancer:'♋', Leo:'♌',
+    Virgo:'♍', Libra:'♎', Scorpio:'♏', Sagittarius:'♐', Capricorn:'♑',
+    Aquarius:'♒', Pisces:'♓'
+};
 
-    let c = 30;
-    let d = 11;
-    let g = 320;
+function updateIcon() {
+    const burjInput = document.getElementById("burjName").value;
+    document.getElementById("burjIcon").innerHTML = burjIcons[burjInput] || '';
+}
 
-    let temp = ((x * c + d) * z) / c;
-    let az = Math.floor(temp);
+function calculate() {
+    const ARABIC_YEAR_DAYS = 354;
+    const ARABIC_C = 30;
+    const ARABIC_D = 11;
+    const EXTRA_DAYS = 320;
+    const QIBTHI_OFFSET = 337;
 
-    if(temp - az >= 0.2){
-        az++;
+    const z = parseInt(document.getElementById("arabicYear").value);
+    const f = parseInt(document.getElementById("extraDays").value);
+    const burjInput = document.getElementById("burjName").value;
+    const deg = parseInt(document.getElementById("deg").value);
+    const min = parseInt(document.getElementById("min").value);
+
+    if (!z || !f || !burjInput || deg === undefined || min === undefined) {
+        alert("Please fill all fields correctly.");
+        return;
     }
 
-    let t = az + f + g;
+    // Qibthi Calculations
+    let temp = ((ARABIC_YEAR_DAYS * ARABIC_C + ARABIC_D) * z) / ARABIC_C;
+    let az = Math.floor(temp);
+    if (temp - az >= 0.2) az++;
+    let t = az + f + EXTRA_DAYS;
     let o = t * 4;
     let j = (365 * 4) + 1;
     let AZ = Math.floor(o / j);
-    let U = AZ + 337;
+    let U = AZ + QIBTHI_OFFSET;
     let v = o % j;
     let k = Math.floor(v / 4);
-
     let n = Math.floor(k / 30);
     let s = k % 30;
     let e = Math.floor((U - 1377) / 100);
 
-    document.getElementById("output").innerHTML = `
-        <b>ASLUL ARABIC :</b> ${t}<br>
-        <b>QIBTHI YEAR :</b> ${U}<br>
-        <b>QIBTHI DAYS :</b> ${k}<br>
-        <b>MONTH FROM QIBTHI :</b> ${n}<br>
-        <b>DAYS FROM QIBTHI :</b> ${e + s}
-    `;
+    const burjEnglishNames = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
+    let burjIndex = burjEnglishNames.indexOf(burjInput);
+
+    // Budhu Dharaja
+    let q = (burjIndex * 30) + (deg + min / 60);
+    let ii = (q < 180) ? (180 - q) : (360 - q);
+    let totalMinutes = Math.round(ii * 60);
+    let outDeg = Math.floor(totalMinutes / 60);
+    let outMin = totalMinutes % 60;
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = '';
+
+    // Create dynamic cards
+    const cards = [
+        {text:`ASLUL ARABIC: ${t}`, color:'#4D79FF'},
+        {text:`QIBTHI YEAR: ${U}`, color:'#66CC66'},
+        {text:`QIBTHI DAYS: ${k}`, color:'#FFB84D'},
+        {text:`MONTH FROM QIBTHI: ${n}`, color:'#FF66B2'},
+        {text:`DAYS FROM QIBTHI: ${e+s}`, color:'#9933FF'},
+        {text:`Entered Burj: ${burjInput}`, color:burjColors[burjInput]},
+        {text:`BUDHU DHARAJA: ${outDeg}° , ${outMin}'`, color:burjColors[burjInput]}
+    ];
+
+    cards.forEach((c,i)=>{
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.style.backgroundColor = c.color;
+        div.style.animationDelay = `${i*0.1}s`;
+        div.innerHTML = `<span class="burj-icon">${burjIcons[burjInput] || ''}</span> ${c.text}`;
+        resultDiv.appendChild(div);
+    });
 }
 </script>
 
