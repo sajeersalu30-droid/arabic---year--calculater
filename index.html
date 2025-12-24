@@ -10,56 +10,86 @@
         font-family: 'Montserrat', sans-serif;
         margin: 0;
         padding: 0;
-        background: linear-gradient(135deg, #6a11cb, #2575fc);
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        background: radial-gradient(circle at top left, #0b0c2a, #1a1c3f);
+        color: #fff;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Animated stars */
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 50%;
+        animation: drift 30s linear infinite;
+    }
+
+    @keyframes drift {
+        0% { transform: translateY(0) translateX(0); opacity: 0.8; }
+        50% { opacity: 0.3; }
+        100% { transform: translateY(-2000px) translateX(2000px); opacity: 0.8; }
     }
 
     .container {
-        background: #fff;
+        background: rgba(0,0,50,0.85);
         border-radius: 25px;
         padding: 25px 30px;
         max-width: 500px;
         width: 95%;
-        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        transition: transform 0.3s ease;
+        box-shadow: 0 0 30px rgba(0,255,255,0.3);
+        backdrop-filter: blur(5px);
+        position: relative;
+        z-index: 1;
     }
 
     .container:hover { transform: translateY(-5px); }
 
     h2 {
         text-align: center;
-        color: #2575fc;
+        color: #FFD700;
         margin-bottom: 25px;
+        text-shadow: 0 0 10px #FFD700;
     }
 
-    label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; }
+    label { display: block; font-weight: 600; margin-bottom: 5px; color: #FFD700; }
     input, select, button {
         width: 100%;
         padding: 12px 10px;
         margin-bottom: 15px;
         border-radius: 12px;
-        border: 1px solid #ccc;
+        border: 1px solid #444;
         font-size: 1rem;
         box-sizing: border-box;
+        background: rgba(255,255,255,0.05);
+        color: #fff;
         transition: all 0.3s ease;
     }
 
-    input:focus, select:focus { outline: none; border-color: #2575fc; box-shadow: 0 0 8px rgba(37,117,252,0.4); }
-    input:hover, select:hover { transform: scale(1.02); }
+    input::placeholder, select::placeholder { color: rgba(255,255,255,0.6); }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #FFD700;
+        box-shadow: 0 0 10px #FFD700;
+        background: rgba(255,255,255,0.1);
+    }
 
     button {
-        background: #2575fc;
-        color: #fff;
+        background: #FFD700;
+        color: #000;
         border: none;
         cursor: pointer;
         font-weight: 600;
         transition: all 0.3s ease;
     }
 
-    button:hover { background: #6a11cb; box-shadow: 0 8px 15px rgba(0,0,0,0.2); transform: scale(1.05); }
+    button:hover { background: #FFC200; transform: scale(1.05); }
 
     .result { margin-top: 15px; }
 
@@ -75,7 +105,8 @@
         transform: translateY(20px);
         animation: fadeInUp 0.5s forwards;
         font-weight: 500;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 0 15px rgba(255,255,255,0.2);
+        backdrop-filter: blur(5px);
     }
 
     .card b { font-weight: 600; }
@@ -93,6 +124,20 @@
 </style>
 </head>
 <body>
+
+<!-- Stars -->
+<script>
+    const starCount = 100;
+    for(let i=0; i<starCount; i++){
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.top = Math.random() * window.innerHeight + 'px';
+        star.style.left = Math.random() * window.innerWidth + 'px';
+        star.style.width = star.style.height = Math.random()*2 + 1 + 'px';
+        star.style.animationDuration = 20 + Math.random()*40 + 's';
+        document.body.appendChild(star);
+    }
+</script>
 
 <div class="container">
     <h2>Arabic & Budhu Dharaja Calculator</h2>
@@ -168,7 +213,6 @@ function calculate() {
         return;
     }
 
-    // Qibthi Calculations
     let temp = ((ARABIC_YEAR_DAYS * ARABIC_C + ARABIC_D) * z) / ARABIC_C;
     let az = Math.floor(temp);
     if (temp - az >= 0.2) az++;
@@ -186,7 +230,6 @@ function calculate() {
     const burjEnglishNames = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
     let burjIndex = burjEnglishNames.indexOf(burjInput);
 
-    // Budhu Dharaja
     let q = (burjIndex * 30) + (deg + min / 60);
     let ii = (q < 180) ? (180 - q) : (360 - q);
     let totalMinutes = Math.round(ii * 60);
@@ -196,7 +239,6 @@ function calculate() {
     const resultDiv = document.getElementById("result");
     resultDiv.innerHTML = '';
 
-    // Create dynamic cards
     const cards = [
         {text:`ASLUL ARABIC: ${t}`, color:'#4D79FF'},
         {text:`QIBTHI YEAR: ${U}`, color:'#66CC66'},
