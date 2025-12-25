@@ -4,163 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arabic & Budhu Dharaja Calculator</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* Body & Background */
-body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background: radial-gradient(circle at top left, #0b0c2a, #1a1c3f);
-    color: #fff;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Stars */
-.star {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.8);
-    animation: drift 40s linear infinite;
-}
-
-@keyframes drift {
-    0% { transform: translateY(0) translateX(0); opacity: 0.8; }
-    50% { opacity: 0.3; }
-    100% { transform: translateY(-2000px) translateX(2000px); opacity: 0.8; }
-}
-
-/* Crescent Moon */
-.crescent {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #FFD700 50%, transparent 70%);
-    filter: drop-shadow(0 0 15px #FFD700);
-    animation: glow 5s ease-in-out infinite alternate;
-    z-index: 0;
-}
-
-@keyframes glow {
-    0% { transform: rotate(0deg); opacity:0.8; }
-    100% { transform: rotate(10deg); opacity:1; }
-}
-
-/* Container */
-.container {
-    background: rgba(0,0,50,0.85);
-    border-radius: 25px;
-    padding: 35px 40px;
-    max-width: 600px;
-    width: 90%;
-    box-shadow: 0 0 40px rgba(0,255,255,0.3);
-    backdrop-filter: blur(5px);
-    position: relative;
-    z-index: 1;
-    transition: transform 0.3s ease;
-}
-
-.container:hover { transform: translateY(-5px); }
-
-/* Headings and Labels */
-h2 {
-    text-align: center;
-    color: #FFD700;
-    margin-bottom: 25px;
-    text-shadow: 0 0 10px #FFD700;
-}
-
-label { display: block; font-weight: 600; margin-bottom: 5px; color: #FFD700; }
-
-/* Inputs and Buttons */
-input, select, button {
-    width: 100%;
-    padding: 12px 10px;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    border: 1px solid #444;
-    font-size: 1rem;
-    background: rgba(255,255,255,0.05);
-    color: #fff;
-    transition: all 0.3s ease;
-}
-
-input::placeholder, select::placeholder { color: rgba(255,255,255,0.6); }
-
-input:focus, select:focus {
-    outline: none;
-    border-color: #FFD700;
-    box-shadow: 0 0 10px #FFD700;
-    background: rgba(255,255,255,0.1);
-}
-
-button {
-    background: #FFD700;
-    color: #000;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-button:hover { background: #FFC200; transform: scale(1.05); }
-
-/* Result Cards */
-.result { margin-top: 15px; }
-
-.card {
-    border-radius: 15px;
-    padding: 15px 20px;
-    margin-bottom: 15px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.5s forwards;
-    font-weight: 500;
-    box-shadow: 0 0 15px rgba(255,255,255,0.2);
-    backdrop-filter: blur(5px);
-}
-
-.card b { font-weight: 600; }
-
-@keyframes fadeInUp { to { opacity:1; transform: translateY(0); } }
-
-.burj-icon { font-size: 1.5rem; margin-right: 10px; }
-
-/* Responsive */
-@media(max-width: 768px) {
-    .container { padding: 25px 20px; }
-    input, select, button { font-size: 0.95rem; padding: 10px; }
-}
+    /* Base styling */
+    body { font-family: Arial, sans-serif; background: #f0f8ff; margin: 0; padding: 20px; }
+    .container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+    h2 { color: #0077cc; text-align: center; }
+    
+    /* Form styling */
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, select, button { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1rem; }
+    button { background: #0077cc; color: #fff; border: none; cursor: pointer; transition: 0.3s; }
+    button:hover { background: #005fa3; }
+    
+    /* Result box */
+    .result { background: #e6f2ff; padding: 15px; border-radius: 8px; margin-top: 10px; font-size: 1rem; line-height: 1.5; }
+    
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+        body { padding: 10px; }
+        .container { padding: 15px; }
+        input, select, button { font-size: 0.95rem; padding: 8px; }
+    }
 </style>
 </head>
 <body>
-
-<div class="crescent"></div>
-
-<script>
-const starCount = 150;
-for(let i=0; i<starCount; i++){
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.top = Math.random() * window.innerHeight + 'px';
-    star.style.left = Math.random() * window.innerWidth + 'px';
-    star.style.width = star.style.height = Math.random()*2 + 1 + 'px';
-    star.style.animationDuration = 20 + Math.random()*40 + 's';
-    document.body.appendChild(star);
-}
-</script>
 
 <div class="container">
     <h2>Arabic & Budhu Dharaja Calculator</h2>
@@ -172,22 +39,21 @@ for(let i=0; i<starCount; i++){
     <input type="number" id="extraDays" placeholder="Enter additional days">
 
     <label>Burj (Zodiac Sign):</label>
-    <select id="burjName" onchange="updateIcon()">
+    <select id="burjName">
         <option value="">Select Burj</option>
-        <option value="Aries">♈ Aries / الحمل</option>
-        <option value="Taurus">♉ Taurus / الثور</option>
-        <option value="Gemini">♊ Gemini / الجوزاء</option>
-        <option value="Cancer">♋ Cancer / السرطان</option>
-        <option value="Leo">♌ Leo / الأسد</option>
-        <option value="Virgo">♍ Virgo / السنبلة</option>
-        <option value="Libra">♎ Libra / الميزان</option>
-        <option value="Scorpio">♏ Scorpio / العقرب</option>
-        <option value="Sagittarius">♐ Sagittarius / القوس</option>
-        <option value="Capricorn">♑ Capricorn / الجدي</option>
-        <option value="Aquarius">♒ Aquarius / الدلو</option>
-        <option value="Pisces">♓ Pisces / الحوت</option>
+        <option value="Aries">Aries / الحمل</option>
+        <option value="Taurus">Taurus / الثور</option>
+        <option value="Gemini">Gemini / الجوزاء</option>
+        <option value="Cancer">Cancer / السرطان</option>
+        <option value="Leo">Leo / الأسد</option>
+        <option value="Virgo">Virgo / السنبلة</option>
+        <option value="Libra">Libra / الميزان</option>
+        <option value="Scorpio">Scorpio / العقرب</option>
+        <option value="Sagittarius">Sagittarius / القوس</option>
+        <option value="Capricorn">Capricorn / الجدي</option>
+        <option value="Aquarius">Aquarius / الدلو</option>
+        <option value="Pisces">Pisces / الحوت</option>
     </select>
-    <div id="burjIcon" style="font-size: 1.7rem; margin-bottom:15px;"></div>
 
     <label>Sun Budhu Dharaja Degree:</label>
     <input type="number" id="deg" placeholder="Degree">
@@ -197,27 +63,10 @@ for(let i=0; i<starCount; i++){
 
     <button onclick="calculate()">Calculate</button>
 
-    <div id="result" class="result"></div>
+    <div class="result" id="result"></div>
 </div>
 
 <script>
-const burjColors = {
-    Aries:'#FF4D4D', Taurus:'#FFA64D', Gemini:'#FFD24D', Cancer:'#4D79FF',
-    Leo:'#FFB84D', Virgo:'#66CC66', Libra:'#FF66B2', Scorpio:'#9933FF',
-    Sagittarius:'#FF9933', Capricorn:'#4DD2FF', Aquarius:'#66FFFF', Pisces:'#9966FF'
-};
-
-const burjIcons = {
-    Aries:'♈', Taurus:'♉', Gemini:'♊', Cancer:'♋', Leo:'♌',
-    Virgo:'♍', Libra:'♎', Scorpio:'♏', Sagittarius:'♐', Capricorn:'♑',
-    Aquarius:'♒', Pisces:'♓'
-};
-
-function updateIcon() {
-    const burjInput = document.getElementById("burjName").value;
-    document.getElementById("burjIcon").innerHTML = burjIcons[burjInput] || '';
-}
-
 function calculate() {
     const ARABIC_YEAR_DAYS = 354;
     const ARABIC_C = 30;
@@ -229,7 +78,57 @@ function calculate() {
     const f = parseInt(document.getElementById("extraDays").value);
     const burjInput = document.getElementById("burjName").value;
     const deg = parseInt(document.getElementById("deg").value);
-    const min = parseInt(documen
+    const min = parseInt(document.getElementById("min").value);
+
+    if (!z || !f || !burjInput || deg === undefined || min === undefined) {
+        document.getElementById("result").innerHTML = "Please fill all fields correctly.";
+        return;
+    }
+
+    // Qibthi Calculations
+    let temp = ((ARABIC_YEAR_DAYS * ARABIC_C + ARABIC_D) * z) / ARABIC_C;
+    let az = Math.floor(temp);
+    if (temp - az >= 0.2) az++;
+    let t = az + f + EXTRA_DAYS;
+    let o = t * 4;
+    let j = (365 * 4) + 1;
+    let AZ = Math.floor(o / j);
+    let U = AZ + QIBTHI_OFFSET;
+    let v = o % j;
+    let k = Math.floor(v / 4);
+    let n = Math.floor(k / 30);
+    let s = k % 30;
+    let e = Math.floor((U - 1377) / 100);
+
+    // Burj handling
+    const burjEnglishNames = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
+    const burjArabicNames = ["الحمل","الثور","الجوزاء","السرطان","الأسد","السنبلة","الميزان","العقرب","القوس","الجدي","الدلو","الحوت"];
+
+    let burjIndex = burjEnglishNames.indexOf(burjInput);
+    if (burjIndex === -1) { document.getElementById("result").innerHTML="Invalid Burj Name"; return; }
+
+    // Budhu Dharaja calculation
+    let q = (burjIndex * 30) + (deg + min / 60);
+    let ii = (q < 90) ? (90 - q) : (180 - q);
+    let totalMinutes = Math.round(ii * 60);
+    let outDeg = Math.floor(totalMinutes / 60);
+    let outMin = totalMinutes % 60;
+
+    document.getElementById("result").innerHTML = `
+        <b>ASLUL ARABIC:</b> ${t} <br>
+        <b>QIBTHI YEAR:</b> ${U} <br>
+        <b>QIBTHI DAYS:</b> ${k} <br>
+        <b>MONTH FROM QIBTHI:</b> ${n} <br>
+        <b>DAYS FROM QIBTHI:</b> ${e+s} <br>
+        <b>Entered Burj:</b> ${burjInput} <br>
+        <b>BUDHU DHARAJA:</b> ${outDeg}° , ${outMin}'
+    `;
+}
+</script>
+
+</body>
+</html>
+
 
 
 
