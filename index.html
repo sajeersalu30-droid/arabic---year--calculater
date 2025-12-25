@@ -109,7 +109,7 @@ function calculate() {
 
     // Budhu Dharaja calculation
     let q = (burjIndex * 30) + (deg + min / 60);
-    let ii = (q < 180) ? (180 - q) : (180 - q);
+    let ii = (q < 180) ? (180 - q) : (360 - q);
     let totalMinutes = Math.round(ii * 60);
     let outDeg = Math.floor(totalMinutes / 60);
     let outMin = totalMinutes % 60;
