@@ -59,6 +59,10 @@ button {
     cursor: pointer;
 }
 
+.clear-btn {
+    background: #ff6b6b;
+}
+
 .output {
     margin-top: 15px;
     background: rgba(255,255,255,0.15);
@@ -96,18 +100,19 @@ button {
 
     <label>Burj</label>
     <select id="burj">
+        <option value="">Select Burj</option>
         <option value="0">Aries (Hamal)</option>
-        <option value="1">Taurus</option>
-        <option value="2">Gemini</option>
-        <option value="3">Cancer</option>
-        <option value="4">Leo</option>
-        <option value="5">Virgo</option>
-        <option value="6">Libra</option>
-        <option value="7">Scorpio</option>
-        <option value="8">Sagittarius</option>
-        <option value="9">Capricorn</option>
-        <option value="10">Aquarius</option>
-        <option value="11">Pisces</option>
+        <option value="1">Taurus(sour)</option>
+        <option value="2">Gemini(jouza)</option>
+        <option value="4">Cancer(sarthan)</option>
+        <option value="5">Leo(asad)</option>
+        <option value="6">Virgo(subula)</option>
+        <option value="0">Libra(meezan)</option>
+        <option value="1">Scorpio(aqrab)</option>
+        <option value="2">Sagittarius(qous)</option>
+        <option value="4">Capricorn(jadiyy)</option>
+        <option value="5">Aquarius(dhalv)</option>
+        <option value="6">Pisces(hooth)</option>
     </select>
 
     <label>Degree</label>
@@ -120,12 +125,30 @@ button {
     <button onclick="calculateBudhu()">Calculate Budhu Dharaja</button>
 
     <div class="output" id="budhuResult"></div>
+
+    <button class="clear-btn" onclick="clearAll()">CLEAR</button>
 </div>
 
 </div>
 
 <script>
 function calculateArabic() {
+
+    /* QIBTHI ARABIC MONTH NAMES */
+    const qibthiMonthsArabic = [
+        "توت",
+        "بابه",
+        "هاتور",
+        "كيهك",
+        "طوبه",
+        "أمشير",
+        "برمهات",
+        "برموده",
+        "بشنس",
+        "بؤونه",
+        "أبيب",
+        "مسرى"
+    ];
 
     let x = 354, c = 30, d = 11, g = 320;
 
@@ -145,13 +168,16 @@ function calculateArabic() {
     let v = o % j;
     let k = Math.floor(v / 4);
 
-    /* ⭐ FIXED QIBTHI CALCULATION ⭐ */
-    let qibthiMonth = Math.floor(k / 30);
-    let qibthiDays = k % 30;
+    /* FORMULA → QIBTHI MONTH & DAY */
+    let qibthiMonthIndex = Math.floor(k / 30);   // 0–11
+    let qibthiDay = (k % 30) + 1;                 // 1–30
+    let qibthiMonthName = qibthiMonthsArabic[qibthiMonthIndex];
 
     arabicResult.innerHTML = `
-        <b>QIBTHI MONTH:</b> ${qibthiMonth}<br>
-        <b>DAYS FROM QIBTHI:</b> ${qibthiDays}<br><hr>
+        <b>QIBTHI MONTH:</b> ${qibthiMonthIndex + 1}
+        (<span style="font-size:15px">${qibthiMonthName}</span>)<br>
+        <b>DAYS FROM QIBTHI:</b> ${qibthiDay}<br><hr>
+
         <b>ASLUL ARABIC:</b> ${t}<br>
         <b>QIBTHI YEAR:</b> ${U}<br>
         <b>QIBTHI DAYS (Total):</b> ${k}
@@ -161,6 +187,11 @@ function calculateArabic() {
 }
 
 function calculateBudhu() {
+
+    if (burj.value === "") {
+        alert("Burj select ചെയ്യുക");
+        return;
+    }
 
     let burjIndex = +burj.value;
     let degVal = +deg.value;
@@ -172,13 +203,9 @@ function calculateBudhu() {
     }
 
     let q = (burjIndex * 30) + (degVal + minVal / 60);
-    let ii;
-
-    if (q < 90) {
-        ii = (degVal + minVal / 60) + (burjIndex * 30);
-    } else {
-        ii = 210 - (burjIndex * 30) - (degVal + minVal / 60);
-    }
+    let ii = (q < 90)
+        ? (degVal + minVal / 60) + (burjIndex * 30)
+        : 210 - (burjIndex * 30) - (degVal + minVal / 60);
 
     let totalMin = Math.round(ii * 60);
 
@@ -187,10 +214,26 @@ function calculateBudhu() {
         ${Math.floor(totalMin / 60)}° ${totalMin % 60}'
     `;
 }
+
+function clearAll() {
+
+    year.value = "";
+    days.value = "";
+    burj.value = "";
+    deg.value = "";
+    min.value = "";
+
+    arabicResult.innerHTML = "";
+    budhuResult.innerHTML = "";
+
+    document.getElementById("step2").style.display = "none";
+}
 </script>
 
 </body>
 </html>
+
+
 
 
 
